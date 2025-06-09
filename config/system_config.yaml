@@ -1,0 +1,98 @@
+
+system:
+  name: "VAANI-RAVEN X"
+  version: "1.0.0"
+  symbol: "EURUSD"
+  timeframe: "M15"
+  max_positions: 3
+  debug_mode: true
+  log_level: "INFO"
+
+agents:
+  pattern_agent:
+    enabled: true
+    model_type: "transformer"
+    sequence_length: 100
+    confidence_threshold: 0.7
+    use_cnn_lstm: true
+    
+  quant_agent:
+    enabled: true
+    indicators:
+      rsi:
+        enabled: true
+        period: 14
+        overbought: 70
+        oversold: 30
+      bollinger_bands:
+        enabled: true
+        period: 20
+        deviation: 2.0
+      macd:
+        enabled: true
+        fast_ema: 12
+        slow_ema: 26
+        signal: 9
+      atr:
+        enabled: true
+        period: 14
+    volatility_model: "garch_lstm"
+    
+  sentiment_agent:
+    enabled: true
+    model: "finbert"  # or "gpt4"
+    news_sources: ["reuters", "bloomberg", "forexfactory"]
+    impact_threshold: "high"
+    uncertainty_halt: true
+    
+  risk_agent:
+    enabled: true
+    kelly_criterion: true
+    max_risk_per_trade: 0.02
+    max_drawdown: 0.15
+    equity_cutoff: 0.8
+    dynamic_sizing: true
+    
+  execution_agent:
+    enabled: true
+    model: "ppo"
+    order_types: ["market", "limit", "stop"]
+    slippage_awareness: true
+    latency_logging: true
+    
+  meta_agent:
+    enabled: true
+    evaluation_metrics: ["sharpe", "sortino", "calmar"]
+    retraining_frequency: "monthly"
+    fallback_strategies: ["grid", "martingale"]
+    performance_threshold: 0.5
+
+mt5:
+  enabled: true
+  server: "MetaQuotes-Demo"
+  login: ""  # To be set via environment
+  password: ""  # To be set via environment
+  timeout: 10000
+  
+data:
+  historical_years: 5
+  data_sources: ["mt5", "yahoo", "alpha_vantage"]
+  update_frequency: "1min"
+  storage_path: "./data"
+  
+monitoring:
+  dashboard_type: "streamlit"  # or "fastapi"
+  port: 8501
+  auto_refresh: 30
+  metrics_retention: "30d"
+  
+training:
+  auto_retrain: true
+  validation_split: 0.2
+  walk_forward: true
+  out_of_sample: true
+  
+build:
+  create_exe: true
+  include_models: true
+  optimize_size: false
