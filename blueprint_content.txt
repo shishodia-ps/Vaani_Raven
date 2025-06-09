@@ -1,0 +1,37 @@
+VAANI-RAVEN X - Updated System Blueprint
+Layer 1: Advanced Pattern Recognition (Core Engine)
+- Uses Transformer models to learn EUR/USD price-action sequences.
+- Processes OHLCV data, trading sessions, micro-trends using CNN+LSTM.
+- Generates signals with confidence scores for short-term breakouts/reversals.
+
+Layer 2: Quantitative Signal Validation (No Overfit Layer)
+- Validates signals using RSI, Z-score, Bollinger Bands, MACD.
+- Bayesian ensemble of GARCH + LSTM classifies volatility regimes.
+- ATR used to measure market turbulence and optimize SL/TP.
+
+Layer 3: Sentiment Validator
+- FinBERT or GPT-4o scans economic headlines and event API.
+- Filters for high-impact news events relevant only to EUR/USD.
+- Avoids news-based overreaction; suspends trading if uncertainty is high.
+
+Layer 4: Risk Management Agent
+- Implements Kelly Criterion for sizing, equity-based cutoffs.
+- Dynamically adjusts risk per trade and market regime.
+- Drawdown halts and loss-limiting grid/martingale if enabled by Meta-Agent.
+
+Layer 5: Execution Agent (RL PPO)
+- Learns optimal entry/exit via PPO in synthetic environments.
+- Includes real-time slippage awareness and execution latency logger.
+- Supports order types: market, limit, stop.
+
+Layer 6: Meta-Learning Agent
+- Evaluates all agents using Sharpe, Sortino, and Calmar ratios.
+- Retrains underperformers monthly using new market data.
+- Decides when to deploy fallback strategies (e.g., grid) dynamically.
+
+Monitoring & Learning
+- Dashboard built in Streamlit/FastAPI.
+- Logs trade outcomes, confidence, market regime, agent agreement.
+- Self-trainer triggered on schedule or poor KPI.
+
+
